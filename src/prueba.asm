@@ -14,18 +14,21 @@
     
     player_x dw 5
     positionx dw 5
+    mensaje db 0ah dup("$")
 .code
 .startup 
-    mov dx,05
-    cmp dx,player_x
-    jz salir
-    jmp salir1
+    mov ah,0ah
+    mov dx,offset mensaje
+    int 21
 
+    mov ah,02
+    mov dl,0a
+    int 21
+
+    mov ah,09
+    mov dx,offset mensaje+2
+    int 21
     salir:
-        mov ah,09
-        mov dx,offset msg
-        int 21
-    salir1:
 
 .exit
 end
