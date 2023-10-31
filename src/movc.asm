@@ -1,6 +1,7 @@
 mover MACRO
-    ;local bucle,salir,verificar,bajar,subir,retraso
-    mov cx,02
+    ;local bucle,salir,verificar,bajar,subir,
+    local retraso
+    mov cx,05
     mov di,offset table
     bucle: 
         push cx
@@ -9,7 +10,8 @@ mover MACRO
         pop di
         push di
         call verificar
-        
+        cmp gmover,01
+        jz finjuego
         pop di
         pop cx
         inc di
@@ -49,7 +51,7 @@ mover MACRO
 
         bajar:
             mov dl,[di+1]
-            cmp dl,18
+            cmp dl,16h
             jz subir
 
             mov dx,0
@@ -70,11 +72,14 @@ mover MACRO
             ret
         subir:
             mov dx,0
-            mov [di],dx
-            mov dx,10
-            mov [di+1],dx
+            mov [di],dl
+            mov dl,02
+            mov [di+1],dl
             mov positionx,0
-            mov positiony,10
+            mov ax,02
+            mov bx,08
+            mul bx
+            mov positiony,ax
             mov bx,offset sprite_carro
             call print_sprite
             ret
@@ -94,10 +99,10 @@ mover MACRO
             push positionx
             push positiony
             mov player_x,0
-            mov player_y,0b0h
+            mov player_y,0b8h
             mov positionx,0
-            mov positiony,0b0h
-            mov bx,offset spritej_carril
+            mov positiony,0b8h
+            mov bx,offset spritej_banqueta
             call print_sprite
             call calcularvid1
             pop positiony
@@ -152,7 +157,7 @@ mover MACRO
             jz vida1
             dec dx
             cmp dl, numvida
-            jz gamover
+            jz gamover1
 
             vida21:
                 mov ah,09
@@ -175,13 +180,19 @@ mover MACRO
                 print vidas
                 ret
             gamover1:
-                mov di,offset vidas
-                mov dl,'X'
-                mov [di+1],dx
-                cursor 0,10h
-                print vidas
-                dec numvida
+                mov gmover,01
                 ret
+    
+    finjuego:
+        limpiarPantalla
+        mov gmover,0
+        cursor 0a,0c
+        print puntaje
+        cursor 0c,0c
+        print numero
+        delay5s
+        jmp menu2
+        
 
     salir:
         call retraso

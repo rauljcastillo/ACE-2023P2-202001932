@@ -68,12 +68,69 @@ drawtab macro
     pop di
     inc di
     inc di
+    push di
     mov positionx,0
     mov positiony,28
 
     mov ax,positionx
     mov bl,08
     div bl          ;Almaceno en table valores de 0 a 39 para columnas y 0 a 24 para filas 
+    mov [di],al
+
+    mov ax,positiony
+    div bl
+    mov [di+1],al
+    mov bx,offset sprite_carro
+    call print_sprite
+
+    ;Tercer carro
+    pop di
+    inc di
+    inc di
+    push di
+
+    mov positionx,0
+    mov positiony,40
+    mov ax,positionx
+    mov bl,08
+    div bl
+    mov [di],al
+
+    mov ax,positiony
+    div bl
+    mov [di+1],al
+    mov bx,offset sprite_carro
+    call print_sprite
+
+    ;Cuarto carro
+    pop di 
+    inc di
+    inc di
+    push di
+
+    mov positionx,0
+    mov positiony,68
+    mov ax,positionx
+    mov bl,08
+    div bl
+    mov [di],al
+
+    mov ax,positiony
+    div bl
+    mov [di+1],al
+    mov bx,offset sprite_carro
+    call print_sprite
+
+    ;quinto carro
+    pop di
+    inc di
+    inc di
+
+    mov positionx,0
+    mov positiony,80
+    mov ax,positionx
+    mov bl,08
+    div bl
     mov [di],al
 
     mov ax,positiony
